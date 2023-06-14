@@ -1,24 +1,25 @@
-# prefix_tree
+# trie_again
 
 [![Package Version](https://img.shields.io/hexpm/v/prefix_tree)](https://hex.pm/packages/prefix_tree)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/prefix_tree/)
+![CI](https://github.com/giacomocavalieri/trie_again/workflows/CI/badge.svg?branch=main)
 
-A Gleam project
+Tries in Gleam 🌳
 
-## Quick start
-
-```sh
-gleam run   # Run the project
-gleam test  # Run the tests
-gleam shell # Run an Erlang shell
-```
+> ⚙️ This package supports the Erlang and Javascript targets!
 
 ## Installation
 
-If available on Hex this package can be added to your Gleam project:
+To add this package to your Gleam project:
 
 ```sh
-gleam add prefix_tree
+gleam add trie_again
 ```
 
-and its documentation can be found at <https://hexdocs.pm/prefix_tree>.
+## Usage
+
+Import the `trie` module and write some code! You can find many examples of how the different functions work in the [project documentation]()
+
+## Contributing
+
+If you think there's any way to improve this package, or if you spot a bug don't be afraid to open PRs, issues or requests of any kind! Any contribution is welcome 💜
