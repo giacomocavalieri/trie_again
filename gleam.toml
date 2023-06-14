@@ -1,13 +1,9 @@
-name = "prefix_tree"
-version = "0.1.0"
-description = "A Gleam project"
-
-# Fill out these fields if you intend to generate HTML documentation or publish
-# your project to the Hex package manager.
-#
-# licences = ["Apache-2.0"]
-# repository = { type = "github", user = "username", repo = "project" }
-# links = [{ title = "Website", href = "https://gleam.run" }]
+name = "trie_again"
+version = "1.0.0"
+description = "Tries in Gleam"
+licences = ["Apache-2.0"]
+repository = { type = "github", user = "giacomocavalieri", repo = "trie_again" }
+links = []
 
 [dependencies]
 gleam_stdlib = "~> 0.29"
