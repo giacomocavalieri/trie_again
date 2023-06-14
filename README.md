@@ -1,7 +1,7 @@
 # trie_again
 
-[![Package Version](https://img.shields.io/hexpm/v/prefix_tree)](https://hex.pm/packages/prefix_tree)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/prefix_tree/)
+[![Package Version](https://img.shields.io/hexpm/v/trie_again)](https://hex.pm/packages/trie_again)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/trie_again/)
 ![CI](https://github.com/giacomocavalieri/trie_again/workflows/CI/badge.svg?branch=main)
 
 Tries in Gleam 🌳
@@ -18,7 +18,7 @@ gleam add trie_again
 
 ## Usage
 
-Import the `trie` module and write some code! You can find many examples of how the different functions work in the [project documentation]().
+Import the `trie` module and write some code! You can find many examples of how the different functions work in the [project documentation](https://hexdocs.pm/trie_again/).
 
 ```gleam
 import trie
