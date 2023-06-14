@@ -1,12 +1,12 @@
-import gleeunit/should
-import trie
-import gleam/pair
+import gleam/function
+import gleam/int
 import gleam/list
 import gleam/map.{Map}
-import gleam/function
 import gleam/option.{None, Some}
-import gleam/int
+import gleam/pair
 import gleam/string
+import gleeunit/should
+import trie
 
 const test_list = [#([1, 2], "a"), #([1], "b"), #([], "c"), #([3, 4, 5], "d")]
 

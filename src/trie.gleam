@@ -1,7 +1,7 @@
-import gleam/option.{None, Option, Some}
-import gleam/map.{Map}
-import gleam/result
 import gleam/list
+import gleam/map.{Map}
+import gleam/option.{None, Option, Some}
+import gleam/result
 
 /// A `Trie(k, v)` is a data structure that allows to store values of type `v` indexed by lists
 /// of values of type `k`.
@@ -15,7 +15,7 @@ pub opaque type Trie(k, v) {
 
 /// Deletes from a trie the value associated with a given path.
 /// 
-/// ## Examples
+/// ## Examples
 /// 
 /// ```gleam
 /// > [#([1, 2], "a"), #([1], "b")]
@@ -68,7 +68,7 @@ fn do_delete(from trie: Trie(k, v), at path: List(k)) -> Option(Trie(k, v)) {
 /// 
 /// The function takes as input the accumulator, the path of a value and the corresponding value.
 /// 
-/// ## Examples
+/// ## Examples
 /// 
 /// ```gleam
 /// > [#([1, 2], 10), #([1], 1)]
@@ -99,7 +99,7 @@ pub fn fold(
 
 /// Creates a new trie from a list of path-value pairs.
 /// 
-/// ## Examples
+/// ## Examples
 /// 
 /// ```gleam
 /// > [#([1, 2], "a"), #([1], "b")]
@@ -171,7 +171,7 @@ pub fn has_path(trie: Trie(k, v), path: List(k)) -> Bool {
 /// Inserts a value in a trie at a given path. If there already is a value
 /// at the given path it is replaced by the new one.
 /// 
-/// ## Examples
+/// ## Examples
 /// 
 /// ```gleam
 /// > new()
@@ -247,7 +247,7 @@ pub fn map(over trie: Trie(k, v), with fun: fn(v) -> a) -> Trie(k, a) {
 
 /// Creates a new empty trie.
 /// 
-/// ## Examples
+/// ## Examples
 /// 
 /// ```gleam
 /// > new()
@@ -299,7 +299,7 @@ pub fn singleton(path: List(k), value: v) -> Trie(k, v) {
 
 /// Gets the number of elements in the trie.
 /// 
-/// ## Examples
+/// ## Examples
 /// 
 /// ```gleam
 /// > [#([1, 2], "a"), #([1], "b")]
