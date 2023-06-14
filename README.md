@@ -18,8 +18,8 @@ gleam add trie_again
 
 ## Usage
 
-Import the `trie` module and write some code! You can find many examples of how the different functions work in the [project documentation]()
+Import the `trie` module and write some code! You can find many examples of how the different functions work in the [project documentation]().
 
-## Contributing
+## Contributing
 
 If you think there's any way to improve this package, or if you spot a bug don't be afraid to open PRs, issues or requests of any kind! Any contribution is welcome 💜
