@@ -312,6 +312,33 @@ pub fn size(trie: Trie(k, v)) -> Int {
   fold(trie, from: 0, with: fn(acc, _, _) { acc + 1 })
 }
 
+/// Gets the subtrie whose elements all share a common given prefix.
+///
+/// ## Examples
+///
+/// ```gleam
+/// > [#([1, 2, 3], "a"), #([1, 2, 4, 5], "b"), #([3, 4], "c")]
+/// > |> from_list
+/// > |> subtrie(at: [1, 2])
+/// > |> to_list
+/// [#([1, 2, 3], "a"), #([1, 2, 4, 5], "b")]
+/// ```
+///
+pub fn subtrie(trie: Trie(k, v), at prefix: List(k)) -> Result(Trie(k, v), Nil) {
+  case prefix, trie {
+    [], _ -> Ok(trie)
+    [first, ..rest], Trie(_, children_map) ->
+      children_map
+      |> map.get(first)
+      |> result.try(subtrie(_, rest))
+      |> result.map(fn(subtrie) {
+        map.new()
+        |> map.insert(first, subtrie)
+        |> Trie(None, _)
+      })
+  }
+}
+
 /// Turns a trie into a list of path-value pairs.
 /// 
 /// ## Examples

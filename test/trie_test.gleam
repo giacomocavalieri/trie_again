@@ -74,17 +74,18 @@ pub fn from_list_test() {
 pub fn get_test() {
   trie.new()
   |> trie.get(at: [])
-  |> should.equal(Error(Nil))
+  |> should.be_error
 
   trie.new()
   |> trie.get(at: [1, 2, 3])
-  |> should.equal(Error(Nil))
+  |> should.be_error
 
   use #(path, value) <- list.each(test_list)
   test_list
   |> trie.from_list
   |> trie.get(at: path)
-  |> should.equal(Ok(value))
+  |> should.be_ok
+  |> should.equal(value)
 }
 
 pub fn has_path_test() {
@@ -180,6 +181,52 @@ pub fn size_test() {
   |> trie.from_list
   |> trie.size
   |> should.equal(list.length(test_list))
+}
+
+// [#([1, 2], "a"), #([1], "b"), #([], "c"), #([3, 4, 5], "d")]
+pub fn subtrie_test() {
+  trie.new()
+  |> trie.subtrie(at: [])
+  |> should.be_ok
+  |> should.equal(trie.new())
+
+  trie.new()
+  |> trie.subtrie(at: [1, 2])
+  |> should.be_error
+
+  test_list
+  |> trie.from_list
+  |> trie.subtrie(at: [])
+  |> should.be_ok
+  |> should.equal(trie.from_list(test_list))
+
+  test_list
+  |> trie.from_list
+  |> trie.subtrie(at: [1, 2])
+  |> should.be_ok
+  |> should.equal(trie.singleton([1, 2], "a"))
+
+  test_list
+  |> trie.from_list
+  |> trie.subtrie(at: [1])
+  |> should.be_ok
+  |> should.equal(trie.from_list([#([1, 2], "a"), #([1], "b")]))
+
+  test_list
+  |> trie.from_list
+  |> trie.subtrie(at: [3, 4])
+  |> should.be_ok
+  |> should.equal(trie.singleton([3, 4, 5], "d"))
+
+  test_list
+  |> trie.from_list
+  |> trie.subtrie(at: [1, 3])
+  |> should.be_error
+
+  test_list
+  |> trie.from_list
+  |> trie.subtrie(at: [1, 2, 3])
+  |> should.be_error
 }
 
 pub fn update_test() {
