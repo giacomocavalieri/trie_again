@@ -8,6 +8,10 @@ Tries in Gleam 🌳
 
 > ⚙️ This package supports the Erlang and Javascript targets!
 
+A [trie](https://en.wikipedia.org/wiki/Trie), also known as prefix tree, is a data structure that stores values associated with a key that is made of a list of elements.
+
+By taking advantage of the structure of the keys, a trie can allow to efficiently perform operations like looking for elements whose keys share a common prefix.
+
 ## Installation
 
 To add this package to your Gleam project:
