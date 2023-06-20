@@ -8,9 +8,32 @@ Tries in Gleam 🌳
 
 > ⚙️ This package supports the Erlang and Javascript targets!
 
-A [trie](https://en.wikipedia.org/wiki/Trie), also known as prefix tree, is a data structure that stores values associated with a key that is made of a list of elements.
+## Why tries?
 
-By taking advantage of the structure of the keys, a trie can allow to efficiently perform operations like looking for elements whose keys share a common prefix.
+A [trie](https://en.wikipedia.org/wiki/Trie) is a data structure that uses lists as keys. By taking advantage of this property it is possible to efficiently perform some queries: for example imagine you want to find all the elements that are associated with a key with the same prefix; with a trie the complexity of the lookup is linear in the size of the prefix you're looking for.
+
+That is why tries can be used to implement autocompleting text dictionaries, spell checking or prefix matching algorithms.  
+
+In this example a trie is used to store words (as lists of graphemes) as keys associated with a definition. With the `subtrie` function one can look for all the elements sharing a commong prefix in their key:
+
+```gleam
+import trie
+import string
+
+let dictionary =
+  trie.new()
+  |> trie.insert(at: string.to_graphemes("gleam"), value: "To produce a small, bright light")
+  |> trie.insert(at: string.to_graphemes("gleaming"), value: "Bright and shiny")
+  |> trie.insert(at: string.to_graphemes("beam"), value: "A line of light that shines from a bright object")
+
+dictionary
+|> trie.subtrie(at: ["g", "l"])
+|> trie.to_list
+// -> [
+//      #(["g", "l", "e", "a", "m"], "To produce a small, bright light"),
+//      #(["g", "l", "e", "a", "m", "i", "n", "g"], "Bright and shiny"),
+//    ]
+```
 
 ## Installation
 
