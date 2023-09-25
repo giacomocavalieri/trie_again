@@ -4,7 +4,7 @@
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/trie_again/)
 ![CI](https://github.com/giacomocavalieri/trie_again/workflows/CI/badge.svg?branch=main)
 
-Tries in Gleam 🌳
+🌳 Tries in Gleam
 
 > ⚙️ This package supports the Erlang and Javascript targets!
 
