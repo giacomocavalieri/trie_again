@@ -1,7 +1,7 @@
 import gleam/function
 import gleam/int
 import gleam/list
-import gleam/map.{Map}
+import gleam/dict.{type Dict}
 import gleam/option.{None, Some}
 import gleam/pair
 import gleam/string
@@ -10,10 +10,10 @@ import trie
 
 const test_list = [#([1, 2], "a"), #([1], "b"), #([], "c"), #([3, 4, 5], "d")]
 
-fn count(list: List(a)) -> Map(a, Int) {
+fn count(list: List(a)) -> Dict(a, Int) {
   list
   |> list.group(by: function.identity)
-  |> map.map_values(fn(_, copies) { list.length(copies) })
+  |> dict.map_values(fn(_, copies) { list.length(copies) })
 }
 
 fn same_elements(list: List(a), of other: List(a)) -> Nil {
@@ -48,10 +48,7 @@ pub fn fold_test() {
 
   test_list
   |> trie.from_list
-  |> trie.fold(
-    from: 0,
-    with: fn(acc, path, value) { acc + fun(#(path, value)) },
-  )
+  |> trie.fold(from: 0, with: fn(acc, path, value) { acc + fun(#(path, value)) })
   |> should.equal(
     test_list
     |> list.map(fun)

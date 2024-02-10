@@ -1,12 +1,12 @@
 name = "trie_again"
-version = "1.1.1"
+version = "1.1.2"
 description = "Tries in Gleam"
 licences = ["Apache-2.0"]
 repository = { type = "github", user = "giacomocavalieri", repo = "trie_again" }
 links = []
 
 [dependencies]
-gleam_stdlib = "~> 0.29"
+gleam_stdlib = "~> 0.34 or ~> 1.0"
 
 [dev-dependencies]
-gleeunit = "~> 0.10"
+gleeunit = "~> 1.0"
