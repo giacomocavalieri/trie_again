@@ -9,13 +9,13 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu22
     steps:
       - uses: actions/checkout@v3.5.1
       - uses: erlef/setup-beam@v1.15.4
         with:
-          otp-version: "25.2"
-          gleam-version: "0.34.1"
+          otp-version: "28.0"
+          gleam-version: "1.11.0"
           rebar3-version: "3"
       - run: gleam format --check src test
       - run: gleam deps download
