@@ -1,5 +1,5 @@
-import gleam/list
 import gleam/dict.{type Dict}
+import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result
 
@@ -85,8 +85,8 @@ pub fn fold(
   dict.fold(
     over: trie.children_map,
     from: trie.entry
-    |> option.map(fun(initial, [], _))
-    |> option.unwrap(initial),
+      |> option.map(fun(initial, [], _))
+      |> option.unwrap(initial),
     with: fn(acc, first, trie) {
       fold(over: trie, from: acc, with: fn(acc, rest, value) {
         fun(acc, [first, ..rest], value)
@@ -137,7 +137,7 @@ pub fn get(from: Trie(k, v), at path: List(k)) -> Result(v, Nil) {
     [first, ..rest], Trie(_, children_map) ->
       children_map
       |> dict.get(first)
-      |> result.then(get(_, rest))
+      |> result.try(get(_, rest))
   }
 }
 
@@ -290,7 +290,7 @@ pub fn paths(trie: Trie(k, v)) -> List(List(k)) {
 /// ```
 ///
 pub fn singleton(path: List(k), value: v) -> Trie(k, v) {
-  insert(new(), at: path, value: value)
+  insert(new(), at: path, value:)
 }
 
 /// Gets the number of elements in the trie.

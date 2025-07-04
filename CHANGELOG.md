@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.3 - 2025-07-04
+
+- Updated code for `gleam_stdlib` `>= 0.61.0 and < 1.0.0`.
+
 ## v1.1.2 - 2024-02-10
 
 - Update `stdlib` dependency to `~> 0.34 or ~> 1.0`
