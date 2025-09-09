@@ -407,7 +407,7 @@ fn do_update(
     [], Trie(entry, children_map) -> {
       case fun(entry), dict.size(children_map) {
         None, 0 -> None
-        _ as new_entry, _ -> Some(Trie(new_entry, children_map))
+        new_entry, _ -> Some(Trie(new_entry, children_map))
       }
     }
     [first, ..rest], Trie(entry, children_map) -> {

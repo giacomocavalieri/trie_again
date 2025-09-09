@@ -1,11 +1,10 @@
+import gleam/dict.{type Dict}
 import gleam/function
 import gleam/int
 import gleam/list
-import gleam/dict.{type Dict}
 import gleam/option.{None, Some}
 import gleam/pair
 import gleam/string
-import gleeunit/should
 import trie
 
 const test_list = [#([1, 2], "a"), #([1], "b"), #([], "c"), #([3, 4, 5], "d")]
@@ -17,28 +16,20 @@ fn count(list: List(a)) -> Dict(a, Int) {
 }
 
 fn same_elements(list: List(a), of other: List(a)) -> Nil {
-  list
-  |> count
-  |> should.equal(count(other))
+  assert count(list) == count(other)
 }
 
 // TODO: Property based testing would be great for this kind of functions!
 
 pub fn delete_test() {
-  trie.new()
-  |> trie.delete([])
-  |> should.equal(trie.new())
-
-  trie.new()
-  |> trie.delete([1, 2])
-  |> should.equal(trie.new())
-
-  test_list
-  |> trie.from_list
-  |> trie.delete([])
-  |> trie.delete([1, 2])
-  |> trie.delete([3, 4, 5])
-  |> should.equal(trie.singleton([1], "b"))
+  assert trie.new() == trie.delete(trie.new(), [])
+  assert trie.new() == trie.delete(trie.new(), [1, 2])
+  assert test_list
+    |> trie.from_list
+    |> trie.delete([])
+    |> trie.delete([1, 2])
+    |> trie.delete([3, 4, 5])
+    == trie.singleton([1], "b")
 }
 
 pub fn fold_test() {
@@ -46,14 +37,14 @@ pub fn fold_test() {
     list.fold(p.0, 0, int.multiply) + string.length(p.1)
   }
 
-  test_list
-  |> trie.from_list
-  |> trie.fold(from: 0, with: fn(acc, path, value) { acc + fun(#(path, value)) })
-  |> should.equal(
-    test_list
+  assert test_list
+    |> trie.from_list
+    |> trie.fold(from: 0, with: fn(acc, path, value) {
+      acc + fun(#(path, value))
+    })
+    == test_list
     |> list.map(fun)
-    |> list.fold(from: 0, with: int.add),
-  )
+    |> list.fold(from: 0, with: int.add)
 }
 
 pub fn from_list_test() {
@@ -69,89 +60,67 @@ pub fn from_list_test() {
 }
 
 pub fn get_test() {
-  trie.new()
-  |> trie.get(at: [])
-  |> should.be_error
-
-  trie.new()
-  |> trie.get(at: [1, 2, 3])
-  |> should.be_error
+  let assert Error(_) = trie.get(trie.new(), at: [])
+  let assert Error(_) = trie.get(trie.new(), at: [1, 2, 3])
 
   use #(path, value) <- list.each(test_list)
-  test_list
-  |> trie.from_list
-  |> trie.get(at: path)
-  |> should.be_ok
-  |> should.equal(value)
+  assert Ok(value)
+    == test_list
+    |> trie.from_list
+    |> trie.get(at: path)
 }
 
 pub fn has_path_test() {
-  trie.new()
-  |> trie.has_path([])
-  |> should.equal(False)
-
-  trie.new()
-  |> trie.has_path([1, 2])
-  |> should.equal(False)
-
-  test_list
-  |> trie.from_list
-  |> trie.has_path([3, 4])
-  |> should.equal(False)
+  assert False == trie.has_path(trie.new(), [])
+  assert False == trie.has_path(trie.new(), [1, 2])
+  assert False
+    == test_list
+    |> trie.from_list
+    |> trie.has_path([3, 4])
 
   use #(path, _) <- list.each(test_list)
-  test_list
-  |> trie.from_list
-  |> trie.has_path(path)
-  |> should.equal(True)
+  assert True
+    == test_list
+    |> trie.from_list
+    |> trie.has_path(path)
 }
 
 pub fn insert_test() {
-  trie.new()
-  |> trie.insert(at: [], value: "c")
-  |> trie.insert(at: [1], value: "z")
-  |> trie.insert(at: [3, 4, 5], value: "d")
-  |> trie.insert(at: [1, 2], value: "a")
-  |> trie.insert(at: [1], value: "b")
-  |> should.equal(trie.from_list(test_list))
+  assert trie.new()
+    |> trie.insert(at: [], value: "c")
+    |> trie.insert(at: [1], value: "z")
+    |> trie.insert(at: [3, 4, 5], value: "d")
+    |> trie.insert(at: [1, 2], value: "a")
+    |> trie.insert(at: [1], value: "b")
+    == trie.from_list(test_list)
 }
 
 pub fn is_empty_test() {
-  trie.new()
-  |> trie.is_empty
-  |> should.equal(True)
+  assert trie.is_empty(trie.new()) == True
 
-  trie.singleton([1, 2], "a")
-  |> trie.is_empty
-  |> should.equal(False)
+  assert trie.is_empty(trie.singleton([1, 2], "a")) == False
 
-  test_list
-  |> trie.from_list
-  |> trie.is_empty
-  |> should.equal(False)
+  assert test_list
+    |> trie.from_list
+    |> trie.is_empty
+    == False
 }
 
 pub fn map_test() {
-  test_list
-  |> trie.from_list
-  |> trie.map(fn(_) { "!" })
-  |> should.equal(
-    test_list
+  assert test_list
+    |> trie.from_list
+    |> trie.map(fn(_) { "!" })
+    == test_list
     |> list.map(pair.map_second(_, fn(_) { "!" }))
-    |> trie.from_list,
-  )
+    |> trie.from_list
 }
 
 pub fn new_test() {
-  trie.new()
-  |> trie.to_list
-  |> should.equal([])
+  assert trie.to_list(trie.new()) == []
 }
 
 pub fn paths_test() {
-  trie.new()
-  |> trie.paths
-  |> should.equal([])
+  assert trie.paths(trie.new()) == []
 
   test_list
   |> trie.from_list
@@ -160,90 +129,81 @@ pub fn paths_test() {
 }
 
 pub fn singleton_test() {
-  trie.singleton([1, 2], "a")
-  |> trie.to_list
-  |> should.equal([#([1, 2], "a")])
+  assert trie.to_list(trie.singleton([1, 2], "a")) == [#([1, 2], "a")]
 }
 
 pub fn size_test() {
-  trie.new()
-  |> trie.size
-  |> should.equal(0)
+  assert trie.size(trie.new()) == 0
 
-  trie.singleton([1, 2], "a")
-  |> trie.size
-  |> should.equal(1)
+  assert trie.size(trie.singleton([1, 2], "a")) == 1
 
-  test_list
-  |> trie.from_list
-  |> trie.size
-  |> should.equal(list.length(test_list))
+  assert test_list
+    |> trie.from_list
+    |> trie.size
+    == list.length(test_list)
 }
 
 // [#([1, 2], "a"), #([1], "b"), #([], "c"), #([3, 4, 5], "d")]
 pub fn subtrie_test() {
-  trie.new()
-  |> trie.subtrie(at: [])
-  |> should.be_ok
-  |> should.equal(trie.new())
+  let assert Ok(value) = trie.subtrie(trie.new(), at: [])
+  assert value == trie.new()
 
-  trie.new()
-  |> trie.subtrie(at: [1, 2])
-  |> should.be_error
+  let assert Error(_) = trie.subtrie(trie.new(), at: [1, 2])
 
-  test_list
-  |> trie.from_list
-  |> trie.subtrie(at: [])
-  |> should.be_ok
-  |> should.equal(trie.from_list(test_list))
+  let assert Ok(value) =
+    test_list
+    |> trie.from_list
+    |> trie.subtrie(at: [])
+  assert value == trie.from_list(test_list)
 
-  test_list
-  |> trie.from_list
-  |> trie.subtrie(at: [1, 2])
-  |> should.be_ok
-  |> should.equal(trie.singleton([1, 2], "a"))
+  let assert Ok(value) =
+    test_list
+    |> trie.from_list
+    |> trie.subtrie(at: [1, 2])
+  assert value == trie.singleton([1, 2], "a")
 
-  test_list
-  |> trie.from_list
-  |> trie.subtrie(at: [1])
-  |> should.be_ok
-  |> should.equal(trie.from_list([#([1, 2], "a"), #([1], "b")]))
+  let assert Ok(value) =
+    test_list
+    |> trie.from_list
+    |> trie.subtrie(at: [1])
+  assert value == trie.from_list([#([1, 2], "a"), #([1], "b")])
 
-  test_list
-  |> trie.from_list
-  |> trie.subtrie(at: [3, 4])
-  |> should.be_ok
-  |> should.equal(trie.singleton([3, 4, 5], "d"))
+  let assert Ok(value) =
+    test_list
+    |> trie.from_list
+    |> trie.subtrie(at: [3, 4])
+  assert value == trie.singleton([3, 4, 5], "d")
 
-  test_list
-  |> trie.from_list
-  |> trie.subtrie(at: [1, 3])
-  |> should.be_error
+  let assert Error(_) =
+    test_list
+    |> trie.from_list
+    |> trie.subtrie(at: [1, 3])
 
-  test_list
-  |> trie.from_list
-  |> trie.subtrie(at: [1, 2, 3])
-  |> should.be_error
+  let assert Error(_) =
+    test_list
+    |> trie.from_list
+    |> trie.subtrie(at: [1, 2, 3])
 }
 
 pub fn update_test() {
-  trie.singleton([1, 2], "a")
-  |> trie.update(at: [1, 2], with: fn(n) { option.map(n, fn(_) { "b" }) })
-  |> should.equal(trie.singleton([1, 2], "b"))
+  assert trie.update(trie.singleton([1, 2], "a"), at: [1, 2], with: fn(n) {
+      option.map(n, fn(_) { "b" })
+    })
+    == trie.singleton([1, 2], "b")
 
-  trie.singleton([1, 2], "a")
-  |> trie.update(at: [1, 2], with: fn(_) { None })
-  |> should.equal(trie.new())
+  assert trie.update(trie.singleton([1, 2], "a"), at: [1, 2], with: fn(_) {
+      None
+    })
+    == trie.new()
 
-  trie.singleton([1, 2], "a")
-  |> trie.update(at: [1], with: fn(_) { Some("b") })
-  |> should.equal(trie.from_list([#([1, 2], "a"), #([1], "b")]))
+  assert trie.update(trie.singleton([1, 2], "a"), at: [1], with: fn(_) {
+      Some("b")
+    })
+    == trie.from_list([#([1, 2], "a"), #([1], "b")])
 }
 
 pub fn values_test() {
-  trie.new()
-  |> trie.values
-  |> should.equal([])
+  assert trie.values(trie.new()) == []
 
   test_list
   |> trie.from_list
